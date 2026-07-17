@@ -7,4 +7,7 @@ openpyxl
 requests
 streamlit-option-menu
 google-genai
-google-generativeai
+google-generation 
+openai
+flask
+python-dotenv
