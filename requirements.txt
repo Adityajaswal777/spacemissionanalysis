@@ -1,0 +1,10 @@
+streamlit
+plotly
+pandas
+numpy
+matplotlib
+openpyxl
+requests
+streamlit-option-menu
+google-genai
+google-generativeai
