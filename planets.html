@@ -1,0 +1,1118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<link rel="stylesheet" href="planets.css">
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width,initial-scale=1.0">
+
+<title>Solar System Explorer</title>
+
+<style>
+
+    .planetDesc{
+
+    margin-top:18px;
+
+    padding-top:15px;
+
+    border-top:1px solid rgba(255,255,255,.12);
+
+    color:#d7d7d7;
+
+    font-size:14px;
+
+    line-height:1.6;
+
+}
+
+html,body{
+
+    margin:0;
+
+    width:100%;
+
+    height:100%;
+
+    overflow:hidden;
+
+    background:#000;
+
+    font-family:Arial,sans-serif;
+
+}
+
+#scene{
+
+    position:fixed;
+
+    inset:0;
+
+    z-index:1;
+
+}
+canvas{
+
+    display:block;
+
+}
+
+#loading{
+
+    position:absolute;
+
+    top:50%;
+
+    left:50%;
+
+    transform:translate(-50%,-50%);
+
+    color:white;
+
+    font-size:26px;
+
+    letter-spacing:2px;
+
+    z-index:100;
+
+}
+
+/* =========================
+   PLANET PANEL
+========================= */
+
+#planetPanel{
+
+    position:fixed;
+
+    top:40px;
+
+    right:-380px;
+
+    width:320px;
+
+    padding:22px;
+
+    border-radius:22px;
+
+    background:rgba(15,20,35,.55);
+
+    backdrop-filter:blur(18px);
+
+    -webkit-backdrop-filter:blur(18px);
+
+    border:1px solid rgba(255,255,255,.15);
+
+    color:white;
+
+    transition:.45s;
+
+    z-index:999;
+
+    box-shadow:0 25px 60px rgba(0,0,0,.45);
+
+}
+
+#planetPanel.show{
+
+    right:30px;
+
+}
+
+#planetTitle{
+
+    margin:0 0 15px;
+
+    font-size:28px;
+
+}
+
+#planetInfo{
+
+    line-height:1.8;
+
+    font-size:16px;
+
+}
+#closePanel{
+
+    position:absolute;
+
+    top:12px;
+
+    right:15px;
+
+    border:none;
+
+    background:none;
+
+    color:white;
+
+    font-size:22px;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+}
+
+#closePanel:hover{
+
+    transform:scale(1.2);
+
+    color:#ffd27f;
+
+}
+#planetImage{
+
+    width:100%;
+
+    height:180px;
+
+    object-fit:contain;
+
+    margin-bottom:15px;
+
+}
+.infoRow{
+
+    margin:10px 0;
+
+    padding:8px 12px;
+
+    border-radius:10px;
+
+    background:rgba(255,255,255,.05);
+
+    transition:.3s;
+
+}
+
+.infoRow:hover{
+
+    background:rgba(255,210,127,.12);
+
+    transform:translateX(5px);
+
+}
+#homeView{
+
+    position:fixed;
+
+    left:25px;
+
+    top:25px;
+
+    z-index:999;
+
+    padding:12px 20px;
+
+    border:none;
+
+    border-radius:14px;
+
+    background:rgba(20,20,35,.65);
+
+    color:white;
+
+    backdrop-filter:blur(12px);
+
+    cursor:pointer;
+
+    font-size:15px;
+
+    transition:.3s;
+
+    border:1px solid rgba(255,255,255,.15);
+
+}
+
+#homeView:hover{
+
+    background:rgba(255,210,127,.15);
+
+    transform:translateY(-2px);
+
+}
+#askGemini{
+
+    width:100%;
+
+    margin-top:18px;
+
+    padding:12px;
+
+    border:none;
+
+    border-radius:12px;
+
+    background:#4f8cff;
+
+    color:white;
+
+    cursor:pointer;
+
+    font-size:16px;
+
+    transition:.3s;
+
+}
+
+#askGemini:hover{
+
+    background:#2f6cff;
+
+}
+
+#aiAnswer{
+
+    margin-top:15px;
+
+    color:white;
+
+    line-height:1.6;
+
+    max-height:250px;
+
+    overflow-y:auto;
+
+}
+</style>
+
+<script type="importmap">
+{
+"imports":{
+"three":"https://unpkg.com/three@0.160.0/build/three.module.js",
+"three/addons/":"https://unpkg.com/three@0.160.0/examples/jsm/"
+}
+}
+</script>
+
+</head>
+
+<body>
+<nav class="navbar">
+
+    <div class="logo">
+        <img src="http://127.0.0.1:8000/static/images/spacedatalogo2.jpg" alt="Logo">
+        <span>SpaceData</span>
+    </div>
+
+    <ul>
+        <li><a href="http://localhost:8501/?page=home">Home</a></li>
+        <li><a href="http://localhost:8501/?page=missions">Missions</a></li>
+        <li><a href="http://localhost:8501/?page=analytics">Analytics</a></li>
+        <li><a class="active" href="#">Planets</a></li>
+        <li><a href="http://localhost:8501/?page=about">About</a></li>
+    </ul>
+
+</nav>
+<div id="loading">
+
+Loading Solar System...
+
+</div>
+
+<div id="scene"></div>
+<button id="homeView">
+    🏠 Solar System View
+</button>
+<div id="planetPanel">
+
+<button id="closePanel">✕</button>
+    <img id="planetImage" src="" alt="">
+
+<h2 id="planetTitle">Solar System</h2>
+
+<div id="planetInfo">
+
+    Click a planet to explore it.
+
+</div>
+
+
+<div id="aiAnswer"></div>
+</div>
+
+<script type="module">
+
+import * as THREE from "three";
+import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
+import { RGBELoader } from "three/addons/loaders/RGBELoader.js";
+// ======================
+// SCENE
+// ======================
+
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x000000);
+// ======================
+// LIGHTS
+// ======================
+
+const ambientLight = new THREE.AmbientLight(
+    0xffffff,
+    0.8
+);
+
+scene.add(ambientLight);
+
+const sunLight = new THREE.PointLight(
+    0xffddaa,
+    5,
+    5000
+);
+
+sunLight.position.set(0,0,0);
+
+scene.add(sunLight);
+// ======================
+// STARFIELD
+// ======================
+
+const starsGeometry =
+new THREE.BufferGeometry();
+
+const starVertices = [];
+
+for(let i=0;i<15000;i++){
+
+    starVertices.push(
+
+        (Math.random()-0.5)*3000,
+
+        (Math.random()-0.5)*3000,
+
+        (Math.random()-0.5)*3000
+
+    );
+
+}
+
+starsGeometry.setAttribute(
+
+    "position",
+
+    new THREE.Float32BufferAttribute(
+
+        starVertices,
+
+        3
+
+    )
+
+);
+
+const starsMaterial =
+new THREE.PointsMaterial({
+
+    color:0xffffff,
+
+    size:1.2,
+
+    transparent:true,
+
+    opacity:0.9
+
+});
+
+const stars =
+new THREE.Points(
+
+    starsGeometry,
+
+    starsMaterial
+
+);
+
+scene.add(stars);
+// ======================
+// CAMERA
+// ======================
+
+const camera = new THREE.PerspectiveCamera(
+
+    60,
+
+    window.innerWidth / window.innerHeight,
+
+    0.1,
+
+    5000
+
+);
+
+camera.position.set(0,50,100);
+
+// ======================
+// RENDERER
+// ======================
+
+const renderer = new THREE.WebGLRenderer({
+
+    antialias:true,
+
+    powerPreference:"high-performance"
+
+});
+
+renderer.setSize(
+
+    window.innerWidth,
+
+    window.innerHeight
+
+);
+
+renderer.setPixelRatio(window.devicePixelRatio);
+
+renderer.outputColorSpace = THREE.SRGBColorSpace;
+
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+
+renderer.toneMappingExposure = 1.0;
+
+document.getElementById("scene").appendChild(renderer.domElement);
+
+// ======================
+// HDR
+// ======================
+
+const pmremGenerator = new THREE.PMREMGenerator(renderer);
+
+new RGBELoader().load(
+
+    "http://127.0.0.1:8000/static/hdr/studio.hdr",
+
+    (texture)=>{
+
+        texture.mapping = THREE.EquirectangularReflectionMapping;
+
+        const envMap = pmremGenerator
+            .fromEquirectangular(texture)
+            .texture;
+
+        scene.environment = envMap;
+
+        scene.environmentIntensity = 0.02;
+
+        texture.dispose();
+
+        pmremGenerator.dispose();
+
+    }
+
+);
+
+
+
+// ======================
+// CONTROLS
+// ======================
+
+// ======================
+// CONTROLS
+// ======================
+
+const controls = new OrbitControls(
+
+    camera,
+
+    renderer.domElement
+
+);
+
+controls.enableDamping = true;
+
+controls.autoRotate = true;
+
+controls.autoRotateSpeed = 0.2;
+
+// ======================
+// PLANET SELECTION
+// ======================
+
+const planets = [];
+
+const raycaster = new THREE.Raycaster();
+
+const mouse = new THREE.Vector2();
+
+let selectedPlanet = null;
+let currentPlanet = "";
+const planetMap = {
+
+    "Object_5":"Mercury",
+    "Object_8":"Venus",
+    "Object_11":"Earth",
+    "Object_14":"Mars",
+    "Object_17":"Jupiter",
+    "Object_20":"Saturn",
+    "Object_25":"Uranus",
+    "Object_28":"Neptune",
+    "Object_34":"Moon",
+    "Object_56":"Sun"
+
+};
+const planetInfo = {
+
+
+    
+Mercury:{
+radius:"2,439 km",
+diameter:"4,879 km",
+mass:"3.301 × 10²³ kg",
+gravity:"3.70 m/s²",
+escapeVelocity:"4.25 km/s",
+rotation:"58.6 Earth days",
+year:"88 Earth days",
+distance:"57.9 million km",
+temperature:"167°C (Average)",
+surfaceArea:"74.8 million km²",
+moons:"0",
+planetType:"Terrestrial Planet",
+atmosphere:"Extremely thin exosphere (Oxygen, Sodium, Hydrogen, Helium, Potassium)",
+orbitalSpeed:"47.36 km/s",
+age:"4.5 Billion Years",
+life:"No",
+magneticField:"Weak",
+
+},
+
+Venus:{
+radius:"6,052 km",
+diameter:"12,104 km",
+mass:"4.867 × 10²⁴ kg",
+gravity:"8.87 m/s²",
+escapeVelocity:"10.36 km/s",
+rotation:"243 Earth days (Retrograde)",
+year:"225 Earth days",
+distance:"108.2 million km",
+temperature:"465°C",
+surfaceArea:"460.2 million km²",
+moons:"0",
+planetType:"Terrestrial Planet",
+atmosphere:"96.5% Carbon Dioxide, 3.5% Nitrogen",
+orbitalSpeed:"35.02 km/s",
+age:"4.5 Billion Years",
+life:"No",
+magneticField:"Very Weak",
+
+},
+
+Earth:{
+radius:"6,371 km",
+diameter:"12,742 km",
+mass:"5.972 × 10²⁴ kg",
+gravity:"9.81 m/s²",
+escapeVelocity:"11.2 km/s",
+rotation:"23h 56m",
+year:"365.25 days",
+distance:"149.6 million km",
+temperature:"15°C (Average)",
+surfaceArea:"510.1 million km²",
+moons:"1 (Moon)",
+planetType:"Terrestrial Planet",
+atmosphere:"78% Nitrogen, 21% Oxygen, 1% Other gases",
+orbitalSpeed:"29.78 km/s",
+age:"4.54 Billion Years",
+water:"71% Surface Covered",
+life:"Yes",
+magneticField:"Strong",
+
+},
+
+Mars:{
+radius:"3,389 km",
+diameter:"6,779 km",
+mass:"6.417 × 10²³ kg",
+gravity:"3.71 m/s²",
+escapeVelocity:"5.03 km/s",
+rotation:"24h 37m",
+year:"687 Earth days",
+distance:"227.9 million km",
+temperature:"-63°C (Average)",
+surfaceArea:"144.8 million km²",
+moons:"2 (Phobos & Deimos)",
+planetType:"Terrestrial Planet",
+atmosphere:"95% Carbon Dioxide",
+orbitalSpeed:"24.07 km/s",
+age:"4.6 Billion Years",
+life:"No confirmed life",
+magneticField:"Weak",
+
+},
+
+Jupiter:{
+radius:"69,911 km",
+diameter:"139,820 km",
+mass:"1.898 × 10²⁷ kg",
+gravity:"24.79 m/s²",
+escapeVelocity:"59.5 km/s",
+rotation:"9h 56m",
+year:"11.86 Earth years",
+distance:"778.5 million km",
+temperature:"-145°C",
+surfaceArea:"61.4 Billion km²",
+moons:"95",
+planetType:"Gas Giant",
+atmosphere:"Hydrogen, Helium",
+orbitalSpeed:"13.07 km/s",
+age:"4.6 Billion Years",
+life:"No",
+magneticField:"Extremely Strong",
+},
+
+Saturn:{
+radius:"58,232 km",
+diameter:"116,460 km",
+mass:"5.683 × 10²⁶ kg",
+gravity:"10.44 m/s²",
+escapeVelocity:"35.5 km/s",
+rotation:"10h 33m",
+year:"29.45 Earth years",
+distance:"1.43 billion km",
+temperature:"-178°C",
+surfaceArea:"42.7 Billion km²",
+moons:"146",
+planetType:"Gas Giant",
+atmosphere:"Hydrogen, Helium",
+orbitalSpeed:"9.69 km/s",
+age:"4.5 Billion Years",
+life:"No",
+magneticField:"Strong",
+
+},
+
+Uranus:{
+radius:"25,362 km",
+diameter:"50,724 km",
+mass:"8.681 × 10²⁵ kg",
+gravity:"8.69 m/s²",
+escapeVelocity:"21.3 km/s",
+rotation:"17h 14m",
+year:"84 Earth years",
+distance:"2.87 billion km",
+temperature:"-224°C",
+surfaceArea:"8.1 Billion km²",
+moons:"28",
+planetType:"Ice Giant",
+atmosphere:"Hydrogen, Helium, Methane",
+orbitalSpeed:"6.81 km/s",
+age:"4.5 Billion Years",
+life:"No",
+magneticField:"Unusual",
+
+},
+
+Neptune:{
+radius:"24,622 km",
+diameter:"49,244 km",
+mass:"1.024 × 10²⁶ kg",
+gravity:"11.15 m/s²",
+escapeVelocity:"23.5 km/s",
+rotation:"16h 6m",
+year:"164.8 Earth years",
+distance:"4.50 billion km",
+temperature:"-214°C",
+surfaceArea:"7.6 Billion km²",
+moons:"16",
+planetType:"Ice Giant",
+atmosphere:"Hydrogen, Helium, Methane",
+orbitalSpeed:"5.43 km/s",
+age:"4.5 Billion Years",
+life:"No",
+magneticField:"Strong",
+
+},
+
+Moon:{
+radius:"1,737 km",
+diameter:"3,474 km",
+mass:"7.35 × 10²² kg",
+gravity:"1.62 m/s²",
+rotation:"27.3 Earth days",
+year:"27.3 Earth days",
+distance:"384,400 km from Earth",
+temperature:"-173°C to 127°C",
+surfaceArea:"37.9 million km²",
+planetType:"Natural Satellite",
+atmosphere:"Extremely Thin Exosphere",
+
+},
+
+Sun:{
+radius:"696,340 km",
+diameter:"1.392 million km",
+mass:"1.989 × 10³⁰ kg",
+gravity:"274 m/s²",
+rotation:"25 Earth days",
+year:"225–250 million years (Galactic Orbit)",
+distance:"Center of the Solar System",
+temperature:"5,500°C (Surface), 15 Million°C (Core)",
+surfaceArea:"6.09 Trillion km²",
+planetType:"G-Type Main Sequence Star",
+atmosphere:"Hydrogen (74%), Helium (24%)",
+age:"4.6 Billion Years",
+life:"N/A",
+magneticField:"Extremely Powerful",
+
+},
+};
+const targetPosition = new THREE.Vector3();
+
+let flyCamera = false;
+const homeCamera = new THREE.Vector3();
+
+const homeTarget = new THREE.Vector3();
+
+let flyHome = false;
+
+
+
+
+
+// ======================
+// ANIMATION
+// ======================
+// ======================
+// MODEL
+// ======================
+
+const loader = new GLTFLoader();
+
+loader.load(
+
+    "http://127.0.0.1:8000/static/model/solar_system.glb",
+
+    (gltf)=>{
+
+        const model = gltf.scene;
+
+        scene.add(model);
+        model.traverse((child) => {
+
+    if (child.isMesh) {
+
+        console.log(child.name);
+
+    }
+
+});
+model.traverse((child)=>{
+
+    if(child.isMesh){
+
+        planets.push(child);
+
+    }
+
+});
+        const box = new THREE.Box3().setFromObject(model);
+
+        const center = box.getCenter(new THREE.Vector3());
+
+        model.position.sub(center);
+
+        const size = box.getSize(new THREE.Vector3()).length();
+
+        camera.position.set(
+            0,
+            size*0.35,
+            size*0.8
+        );
+        homeCamera.copy(camera.position);
+
+homeTarget.set(0,0,0);
+
+        controls.target.set(0,0,0);
+        
+        controls.update();
+document.getElementById("homeView").onclick = ()=>{
+
+    flyHome = true;
+
+    controls.autoRotate = true;
+
+    document
+    .getElementById("planetPanel")
+    .classList.remove("show");
+
+};
+        document.getElementById("loading").style.display="none";
+
+    },
+
+    undefined,
+
+    (err)=>{
+
+        console.error(err);
+
+        document.getElementById("loading").innerHTML =
+        "Failed to load model";
+
+    }
+
+);
+window.addEventListener("pointerdown",(event)=>{
+
+    mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+
+    mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+    raycaster.setFromCamera(mouse,camera);
+
+    const hits = raycaster.intersectObjects(planets,true);
+
+   if (hits.length) {
+
+    selectedPlanet = hits[0].object;
+    const worldPos = new THREE.Vector3();
+
+selectedPlanet.getWorldPosition(worldPos);
+targetPosition.copy(worldPos);
+
+const key = planetMap[selectedPlanet.name];
+currentPlanet = key;
+const distance = key === "Sun" ? 35 : 15;
+
+targetPosition.add(
+    new THREE.Vector3(
+        distance,
+        distance * 0.5,
+        distance
+    )
+);
+
+flyCamera = true;
+
+controls.autoRotate = false;
+
+    console.log("Mesh Name:", selectedPlanet.name);
+    const panel = document.getElementById("planetPanel");
+
+const title = document.getElementById("planetTitle");
+const image =
+document.getElementById("planetImage");
+
+const info = document.getElementById("planetInfo");
+
+
+
+if(key){
+
+title.innerHTML = `
+${key === "Sun" ? "☀️" : "🪐"} ${key}
+`;
+image.src = `http://127.0.0.1:8000/static/images/${key.toLowerCase()}.png`;
+
+image.onerror = () => {
+    image.src = "static/images/default.png";
+};
+const p = planetInfo[key];
+
+info.innerHTML = `
+
+
+<div class="infoRow">📏 <b>Radius:</b> ${p.radius}</div>
+<div class="infoRow">🌍 <b>Gravity:</b> ${p.gravity}</div>
+<div class="infoRow">🌙 <b>Moons:</b> ${p.moons}</div>
+<div class="infoRow">🗓 <b>Year:</b> ${p.year}</div>
+<div class="infoRow">🌡 <b>Temperature:</b> ${p.temperature || "Unknown"}</div>
+<div class="infoRow">☀ <b>Distance:</b> ${p.distance || "Unknown"}</div>
+<div class="infoRow">🪐 <b>Type:</b> ${p.planetType || "Unknown"}</div>
+<div class="infoRow">💨 <b>Atmosphere:</b> ${p.atmosphere || "Unknown"}</div>
+
+<div class="planetDesc">
+${p.description || ""}
+</div>
+
+<button id="askGemini">
+🤖 Ask Gemini
+</button>
+
+<div id="aiAnswer"></div>
+`;
+document.getElementById("askGemini").onclick = async () => {
+
+    const answer = document.getElementById("aiAnswer");
+
+    answer.innerHTML = "🤖 Thinking...";
+
+    try {
+
+        const response = await fetch("http://127.0.0.1:5000/ask", {
+
+            method: "POST",
+
+            headers: {
+                "Content-Type": "application/json"
+            },
+
+            body: JSON.stringify({
+                prompt: `Explain ${currentPlanet} in simple language for students in about 150 words.`
+            })
+
+        });
+
+        const data = await response.json();
+
+        answer.innerHTML = data.answer;
+
+    } catch (err) {
+
+        answer.innerHTML = "❌ Could not connect to Gemini.";
+
+        console.error(err);
+
+    }
+
+};
+    
+panel.classList.add("show");
+    selectedPlanet.material = selectedPlanet.material.clone();
+
+    selectedPlanet.material.emissive.set(0xffd27f);
+selectedPlanet.material.emissiveIntensity = 0.15;
+
+}   // closes if(key)
+
+}   // closes if(hits.length)
+
+}); // closes addEventListener
+function animate(){
+
+    requestAnimationFrame(animate);
+
+    stars.rotation.y += 0.00008;
+
+    if(flyCamera){
+
+        camera.position.lerp(targetPosition,0.03);
+
+        controls.target.lerp(targetPosition,0.03);
+
+        if(camera.position.distanceTo(targetPosition)<0.5){
+
+            flyCamera=false;
+
+        }
+
+    }
+    if(flyHome){
+
+    camera.position.lerp(homeCamera,0.03);
+
+    controls.target.lerp(homeTarget,0.03);
+
+    if(camera.position.distanceTo(homeCamera)<0.5){
+
+        flyHome = false;
+
+    }
+
+}
+
+    controls.update();
+
+    renderer.render(scene,camera);
+    planets.forEach((planet)=>{
+
+    if(
+        planet.material &&
+        planet.material.emissive
+    ){
+
+        planet.material.emissive.set(0x000000);
+
+        planet.material.emissiveIntensity = 0;
+
+        planet.scale.set(1,1,1);
+
+    }
+
+});
+if(
+    selectedPlanet &&
+    selectedPlanet.material &&
+    selectedPlanet.material.emissive
+){
+
+    selectedPlanet.scale.set(1.08,1.08,1.08);
+
+    if(
+        selectedPlanet.name
+        .toLowerCase()
+        .includes("sun")
+    ){
+
+        selectedPlanet.material.emissive.set(0xffffff);
+
+        selectedPlanet.material.emissiveIntensity = 0.22;
+
+    }
+
+    else{
+
+        selectedPlanet.material.emissive.set(0xffd27f);
+
+        selectedPlanet.material.emissiveIntensity = 0.15;
+
+    }
+
+}
+
+}
+
+animate();
+// ======================
+// CLOSE PANEL
+// ======================
+
+document
+.getElementById("closePanel")
+.onclick = ()=>{
+
+    document
+    .getElementById("planetPanel")
+    .classList.remove("show");
+
+    controls.autoRotate = true;
+
+};
+// ======================
+// RESIZE
+// ======================
+// ======================
+// GEMINI AI
+// ======================
+
+
+window.addEventListener("resize",()=>{
+
+    camera.aspect =
+
+    window.innerWidth /
+
+    window.innerHeight;
+
+    camera.updateProjectionMatrix();
+
+    renderer.setSize(
+
+        window.innerWidth,
+
+        window.innerHeight
+
+    );
+
+});
+
+// Hide loader
+document.getElementById("loading").style.display="none";
+
+</script>
+</body>

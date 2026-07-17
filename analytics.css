@@ -1,0 +1,1130 @@
+/* ==========================================================
+   APPLE GLASS ANALYTICS
+   SECTION 1 - FOUNDATION
+========================================================== */
+
+:root{
+
+    --glass:rgba(18,25,40,.55);
+
+    --glass-dark:rgba(10,16,28,.72);
+
+    --border:rgba(255,255,255,.12);
+
+    --blue:#67C8FF;
+
+    --text:#FFFFFF;
+
+    --muted:#C7D3E6;
+
+}
+
+/* =====================================
+   PAGE
+===================================== */
+
+/* =====================================
+   GLASS BASE
+===================================== */
+
+/* Apple Glass */
+
+.glass-card:hover{
+
+transform:translateY(-6px);
+
+border-color:rgba(103,200,255,.45);
+
+box-shadow:
+
+0 0 35px rgba(103,200,255,.22);
+
+}
+
+/* =====================================
+   DIVIDER
+===================================== */
+
+hr{
+
+border:.5px solid rgba(255,255,255,.10);
+
+}
+
+/* =====================================
+   SCROLLBAR
+===================================== */
+
+::-webkit-scrollbar{
+
+width:10px;
+
+}
+
+::-webkit-scrollbar-track{
+
+background:#09111d;
+
+}
+
+::-webkit-scrollbar-thumb{
+
+background:#2d5fa4;
+
+border-radius:50px;
+
+}
+
+::-webkit-scrollbar-thumb:hover{
+
+background:#67C8FF;
+
+}
+/* ==========================================================
+   SECTION 2
+   KPI + AI SUMMARY
+========================================================== */
+
+/* KPI Cards */
+
+div[data-testid="stMetric"]{
+
+background:
+linear-gradient(
+145deg,
+rgba(25,35,55,.72),
+rgba(14,18,30,.55)
+)!important;
+
+backdrop-filter:blur(25px);
+
+-webkit-backdrop-filter:blur(25px);
+
+border:1px solid rgba(255,255,255,.10)!important;
+
+border-radius:24px!important;
+
+padding:22px!important;
+
+min-height:140px;
+
+box-shadow:
+
+0 10px 35px rgba(0,0,0,.35);
+
+transition:.35s ease;
+
+overflow:hidden;
+
+position:relative;
+
+}
+
+/* Blue Glow */
+
+div[data-testid="stMetric"]::before{
+
+content:"";
+
+position:absolute;
+
+top:-60px;
+right:-60px;
+
+width:140px;
+height:140px;
+
+background:rgba(103,200,255,.18);
+
+filter:blur(50px);
+
+border-radius:50%;
+
+}
+
+/* Hover */
+
+div[data-testid="stMetric"]:hover{
+
+transform:
+
+translateY(-8px)
+
+scale(1.02);
+
+border-color:#67C8FF!important;
+
+box-shadow:
+
+0 0 40px rgba(103,200,255,.28);
+
+}
+
+/* Metric Value */
+
+div[data-testid="stMetricValue"]{
+
+font-size:42px!important;
+
+font-weight:800!important;
+
+color:white!important;
+
+}
+
+/* Metric Label */
+
+div[data-testid="stMetricLabel"]{
+
+font-size:18px!important;
+
+color:#D8E6FF!important;
+
+letter-spacing:.3px;
+
+}
+
+/* ===========================
+   AI SUMMARY
+=========================== */
+
+.ai-summary{
+
+background:
+
+linear-gradient(
+
+145deg,
+
+rgba(20,28,45,.82),
+
+rgba(10,15,28,.60)
+
+);
+
+border-radius:28px;
+
+padding:34px;
+
+border:1px solid rgba(255,255,255,.10);
+
+backdrop-filter:blur(28px);
+
+-webkit-backdrop-filter:blur(28px);
+
+box-shadow:
+
+0 18px 45px rgba(0,0,0,.40);
+
+transition:.35s;
+
+}
+
+.ai-summary:hover{
+
+transform:translateY(-5px);
+
+border-color:#67C8FF;
+
+box-shadow:
+
+0 0 45px rgba(103,200,255,.22);
+
+}
+
+/* AI Title */
+
+.ai-summary h2{
+
+font-size:36px;
+
+margin-bottom:20px;
+
+color:#67C8FF;
+
+}
+
+/* AI Text */
+
+.ai-summary p{
+
+font-size:17px;
+
+line-height:1.9;
+
+color:#D7E6FF;
+
+}
+/* ==========================================================
+   SECTION 3
+   PLOTLY + TABS + BUTTONS
+==========================================================*/
+
+/* ===========================
+   PLOTLY CONTAINER
+=========================== */
+
+div[data-testid="stPlotlyChart"]{
+
+background:
+
+linear-gradient(
+145deg,
+rgba(22,30,48,.72),
+rgba(10,15,28,.58)
+)!important;
+
+backdrop-filter:blur(24px);
+
+-webkit-backdrop-filter:blur(24px);
+
+border:1px solid rgba(255,255,255,.08);
+
+border-radius:26px;
+
+padding:22px;
+
+margin-top:22px;
+
+margin-bottom:28px;
+
+box-shadow:
+
+0 18px 45px rgba(0,0,0,.38);
+
+transition:.35s ease;
+
+}
+
+div[data-testid="stPlotlyChart"]:hover{
+
+transform:translateY(-6px);
+
+border-color:#67C8FF;
+
+box-shadow:
+
+0 0 40px rgba(103,200,255,.22);
+
+}
+
+/* ===========================
+   Plotly Toolbar
+=========================== */
+
+.modebar{
+
+opacity:0!important;
+
+transition:.35s;
+
+}
+
+.js-plotly-plot:hover .modebar{
+
+opacity:1!important;
+
+}
+
+/* ===========================
+   Tabs
+=========================== */
+
+.stTabs{
+
+margin-top:20px;
+
+}
+
+button[data-baseweb="tab"]{
+
+height:52px!important;
+
+border-radius:16px;
+
+padding:0 24px!important;
+
+border-radius:18px!important;
+
+margin-right:12px;
+
+background:
+
+rgba(255,255,255,.05)!important;
+
+border:
+
+1px solid rgba(255,255,255,.08)!important;
+
+color:white!important;
+
+font-size:16px!important;
+
+font-weight:700!important;
+
+transition:.30s;
+
+backdrop-filter:blur(18px);
+
+}
+
+button[data-baseweb="tab"]:hover{
+
+background:
+
+rgba(103,200,255,.16)!important;
+
+transform:
+
+translateY(-3px);
+
+border-color:#67C8FF!important;
+
+}
+
+/* Active Tab */
+
+button[aria-selected="true"]{
+
+background:
+
+linear-gradient(
+135deg,
+#23589f,
+#3194dd
+)!important;
+
+color:white!important;
+
+border:
+
+1px solid #67C8FF!important;
+
+box-shadow:
+
+0 0 20px rgba(103,200,255,.35);
+
+}
+
+/* ===========================
+   Navigation Buttons
+=========================== */
+
+
+div.stButton > button:hover{
+
+background:rgba(255,255,255,.08);
+
+border:1px solid rgba(255,255,255,.15);
+
+box-shadow:
+
+0 0 25px rgba(103,200,255,.30);
+
+transform:translateY(-2px);
+
+}
+
+
+/* Disabled Analytics Button */
+div.stButton > button:disabled{
+
+background:linear-gradient(
+135deg,
+rgba(70,170,255,.55),
+rgba(110,220,255,.30)
+);
+
+border:1px solid rgba(255,255,255,.18);
+
+color:white;
+
+opacity:1;
+
+box-shadow:
+
+0 0 30px rgba(103,200,255,.40);
+
+}
+/* ===========================
+   Selectbox
+=========================== */
+
+div[data-baseweb="select"]{
+
+border-radius:18px!important;
+
+overflow:hidden;
+
+}
+
+div[data-baseweb="select"]>div{
+
+background:
+
+rgba(20,28,45,.65)!important;
+
+border:
+
+1px solid rgba(255,255,255,.08)!important;
+
+color:white!important;
+
+backdrop-filter:blur(20px);
+
+}
+/* ==========================================================
+   SECTION 4
+   HERO + TITLE
+==========================================================*/
+
+/* Main Hero */
+
+.analytics-hero{
+
+position:relative;
+
+padding:60px;
+
+margin-bottom:35px;
+
+border-radius:34px;
+
+overflow:hidden;
+
+background:
+
+linear-gradient(
+145deg,
+rgba(18,28,45,.65),
+rgba(8,12,22,.55)
+);
+
+backdrop-filter:blur(28px);
+
+-webkit-backdrop-filter:blur(28px);
+
+border:1px solid rgba(255,255,255,.10);
+
+box-shadow:
+
+0 25px 60px rgba(0,0,0,.45);
+
+
+width:100%;
+
+margin:20px auto 30px auto;
+
+box-sizing:border-box;
+
+}
+
+/* Animated Glow */
+
+.analytics-hero::before{
+
+content:"";
+
+position:absolute;
+
+top:-160px;
+
+right:-160px;
+
+width:320px;
+
+height:320px;
+
+background:
+
+radial-gradient(
+
+circle,
+
+rgba(103,200,255,.35),
+
+transparent 70%
+
+);
+
+filter:blur(40px);
+
+animation:floatGlow 8s ease-in-out infinite;
+
+}
+
+/* Left Glow */
+
+.analytics-hero::after{
+
+content:"";
+
+position:absolute;
+
+left:-120px;
+
+bottom:-120px;
+
+width:260px;
+
+height:260px;
+
+background:
+
+radial-gradient(
+
+circle,
+
+rgba(90,120,255,.20),
+
+transparent 70%
+
+);
+
+filter:blur(45px);
+
+animation:floatGlow2 10s ease-in-out infinite;
+
+}
+
+/* Hero Title */
+
+.analytics-title{
+
+font-size:64px;
+
+font-weight:900;
+
+letter-spacing:1px;
+
+color:white;
+
+text-align:center;
+
+margin-bottom:12px;
+
+position:relative;
+
+z-index:5;
+
+text-transform:uppercase;
+
+text-shadow:
+
+0 0 25px rgba(103,200,255,.45);
+
+}
+
+/* Subtitle */
+
+.analytics-subtitle{
+
+font-size:22px;
+
+opacity:.9;
+
+text-align:center;
+
+color:#d4e4ff;
+
+margin-bottom:30px;
+
+position:relative;
+
+z-index:5;
+
+}
+
+/* Badge Row */
+
+.analytics-badges{
+
+display:flex;
+
+justify-content:center;
+
+gap:15px;
+
+flex-wrap:wrap;
+
+position:relative;
+
+z-index:5;
+
+}
+
+/* Individual Badge */
+
+.analytics-badge{
+
+padding:12px 22px;
+
+border-radius:999px;
+
+background:
+
+rgba(255,255,255,.08);
+
+backdrop-filter:blur(16px);
+
+border:
+
+1px solid rgba(255,255,255,.10);
+
+font-weight:700;
+
+color:white;
+
+transition:.3s;
+
+}
+
+.analytics-badge:hover{
+
+transform:
+
+translateY(-4px);
+
+background:
+
+rgba(103,200,255,.18);
+
+border-color:#67C8FF;
+
+}
+
+/* Animations */
+
+@keyframes floatGlow{
+
+0%{
+
+transform:
+
+translateY(0px);
+
+}
+
+50%{
+
+transform:
+
+translateY(35px);
+
+}
+
+100%{
+
+transform:
+
+translateY(0px);
+
+}
+
+}
+
+@keyframes floatGlow2{
+
+0%{
+
+transform:
+
+translateX(0px);
+
+}
+
+50%{
+
+transform:
+
+translateX(30px);
+
+}
+
+100%{
+
+transform:
+
+translateX(0px);
+
+}
+
+}
+/* ==========================================================
+   ANALYTICS VIDEO
+========================================================== */
+
+#analytics-video-container{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100vw;
+    height:100vh;
+    overflow:hidden;
+    z-index:-10;
+    pointer-events:none;
+}
+
+#analytics-video{
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+#analytics-overlay{
+    position:absolute;
+    inset:0;
+    background:rgba(5,10,20,.60);
+    backdrop-filter:blur(2px);
+}
+
+.analytics-hero,
+.glass-card,
+div[data-testid="stMetric"],
+div[data-testid="stPlotlyChart"],
+.stTabs{
+    position:relative;
+    z-index:5;
+}
+
+div[data-testid="stPlotlyChart"]{
+
+overflow:hidden;
+
+}
+div[data-testid="stPlotlyChart"]{
+
+animation:fadeChart .7s ease;
+
+}
+
+@keyframes fadeChart{
+
+from{
+
+opacity:0;
+
+transform:translateY(25px);
+
+}
+
+to{
+
+opacity:1;
+
+transform:none;
+
+}
+
+}
+.js-plotly-plot,
+.plot-container,
+.svg-container{
+
+border-radius:24px!important;
+
+overflow:hidden!important;
+
+}
+/* Entire Analytics */
+
+.stApp{
+
+background:
+radial-gradient(circle at top,#122447 0%,#08101f 70%,#050910 100%);
+
+}
+
+/* Glass cards */
+
+.glass-card{
+
+background:rgba(255,255,255,.07);
+
+border:1px solid rgba(255,255,255,.10);
+
+backdrop-filter:blur(24px);
+
+-webkit-backdrop-filter:blur(24px);
+
+border-radius:26px;
+
+box-shadow:
+0 15px 45px rgba(0,0,0,.35),
+inset 0 1px rgba(255,255,255,.08);
+
+transition:.35s;
+
+}
+
+.glass-card:hover{
+
+transform:translateY(-6px);
+
+border-color:#67C8FF;
+
+box-shadow:
+0 20px 60px rgba(103,200,255,.20);
+
+}
+div[data-testid="stMetric"]{
+
+background:rgba(255,255,255,.06);
+
+border-radius:24px;
+
+border:1px solid rgba(255,255,255,.08);
+
+backdrop-filter:blur(20px);
+
+box-shadow:
+0 10px 35px rgba(0,0,0,.25);
+
+}
+div[data-testid="stPlotlyChart"]{
+
+background:rgba(255,255,255,.05);
+
+padding:20px;
+
+border-radius:24px;
+
+border:1px solid rgba(255,255,255,.08);
+
+backdrop-filter:blur(18px);
+
+box-shadow:
+0 12px 35px rgba(0,0,0,.30);
+
+}
+div[data-testid="stHorizontalBlock"]{
+
+display:flex;
+justify-content:center;
+align-items:center;
+
+max-width:980px;
+
+margin:20px auto 45px auto;
+
+padding:10px 18px;
+
+border-radius:999px;
+
+background:
+linear-gradient(
+135deg,
+rgba(255,255,255,.18),
+rgba(255,255,255,.06)
+);
+
+backdrop-filter:blur(40px) saturate(200%);
+-webkit-backdrop-filter:blur(40px) saturate(200%);
+
+border:1.5px solid rgba(255,255,255,.28);
+
+box-shadow:
+0 15px 45px rgba(0,0,0,.35),
+inset 0 1px 0 rgba(255,255,255,.45),
+inset 0 -1px 0 rgba(255,255,255,.08),
+0 0 50px rgba(255,255,255,.12);
+
+position:relative;
+
+overflow:hidden;
+
+}
+
+
+
+
+@keyframes glassMove{
+
+0%{
+
+left:-40%;
+
+}
+
+100%{
+
+left:140%;
+
+}
+
+}
+div.stButton > button{
+
+height:52px;
+
+border-radius:999px;
+
+background:rgba(255,255,255,.04);
+
+border:1px solid rgba(255,255,255,.08);
+
+color:white;
+
+font-size:15px;
+
+font-weight:700;
+
+transition:.35s;
+
+backdrop-filter:blur(18px);
+
+-webkit-backdrop-filter:blur(18px);
+
+}
+/* ==========================================================
+   FULLSCREEN VIDEO
+========================================================== */
+
+#analytics-video-container{
+
+position:fixed;
+
+top:0;
+left:0;
+
+width:100vw;
+height:100vh;
+
+overflow:hidden;
+
+z-index:-100;
+
+pointer-events:none;
+
+}
+
+#analytics-video{
+
+position:absolute;
+
+top:0;
+left:0;
+
+width:100%;
+height:100%;
+
+object-fit:cover;
+
+filter:brightness(.45) saturate(1.15);
+
+}
+
+#analytics-overlay{
+
+position:absolute;
+
+inset:0;
+
+background:
+linear-gradient(
+180deg,
+rgba(3,8,20,.45),
+rgba(5,10,20,.65)
+);
+
+backdrop-filter:blur(2px);
+
+}
+/* ==========================================================
+   GLASS EFFECT
+========================================================== */
+
+
+/* Floating Wrapper */
+
+.glass-navbar{
+
+position:sticky;
+
+top:15px;
+
+z-index:999;
+
+padding:8px;
+
+margin-bottom:40px;
+
+}
+/* ======================================
+   NAVBAR GLOW
+====================================== */
+
+div[data-testid="stHorizontalBlock"]::after{
+
+content:"";
+
+position:absolute;
+
+left:50%;
+bottom:-25px;
+
+transform:translateX(-50%);
+
+width:260px;
+
+height:80px;
+
+background:radial-gradient(
+ellipse,
+rgba(103,200,255,.35) 0%,
+rgba(103,200,255,.12) 45%,
+transparent 80%
+);
+
+filter:blur(28px);
+
+pointer-events:none;
+
+z-index:-1;
+
+}
+/* ======================================
+   GLASS SHINE
+====================================== */
+
+div[data-testid="stHorizontalBlock"]::before{
+
+content:"";
+
+position:absolute;
+
+top:-120%;
+left:-35%;
+
+width:160px;
+height:320%;
+
+background:linear-gradient(
+90deg,
+transparent,
+rgba(255,255,255,.18),
+transparent
+);
+
+transform:rotate(20deg);
+
+animation:glassShine 7s linear infinite;
+
+pointer-events:none;
+
+}
+
+@keyframes glassShine{
+
+0%{
+left:-35%;
+}
+
+100%{
+left:130%;
+}
+
+}

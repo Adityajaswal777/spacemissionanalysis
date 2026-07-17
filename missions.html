@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Space Mission Analytics</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+
+    <!-- ================= LOADER ================= -->
+
+    <div id="loader">
+        <img src="data:image/jpeg;base64,LOGO_DATA" class="loader-logo" alt="Logo">
+    </div>
+
+    <div id="flash"></div>
+
+    <!-- ================= WEBSITE ================= -->
+
+    <div id="website">
+
+
+
+
+
+
+
+
+
+        <!-- ================= NAVBAR ================= -->
+
+        <nav class="glass-navbar">
+
+            <div class="glass-bg"></div>
+
+            <div class="glass-shine"></div>
+
+            <div class="glass-noise"></div>
+
+
+
+            <div class="logo">
+                <img src="data:image/jpeg;base64,LOGO_DATA" alt="Logo">
+            </div>
+
+            <ul class="nav-links">
+
+                <li><a href="?page=home">Home</a></li>
+                <li><a href="?page=missions">Missions</a></li>
+                <li><a href="?page=analytics">Analytics</a></li>
+                <li><a href="?page=planets">Planets</a></li>
+                <li><a href="?page=about">About</a></li>
+
+            </ul>
+
+            <div class="nav-icons">
+                <button>🔍</button>
+                <button>🌙</button>
+            </div>
+
+        </nav>
+        <section class="missions">
+
+            <video class="mission-video" autoplay muted loop playsinline>
+                <source src="data:video/mp4;base64,MISSION_VIDEO_DATA" type="video/mp4">
+            </video>
+
+            <div class="mission-overlay"></div>
+
+            <div class="mission-content">
+
+                <h1 class="mission-title">
+                    Space Missions
+                </h1>
+
+                <div class="mission-list">
+                    MISSION_DATA
+                </div>
+
+            </div>
+            <!-- ================= AI PANEL ================= -->
+
+            <div id="aiPanel">
+
+                <div class="ai-header">
+
+                    <div class="ai-head-left">
+
+                        <div class="ai-avatar">
+                            🤖
+                        </div>
+
+                        <div>
+
+                            <div>
+
+                                <div class="ai-title">
+
+                                    🚀 Space AI
+
+                                </div>
+
+                                <div class="ai-subtitle">
+
+                                    Mission Intelligence Assistant
+
+                                </div>
+
+                            </div>
+                            <div class="ai-status">
+
+                                ● Online
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <button id="closeAI">
+
+                        ✕
+
+                    </button>
+
+                </div>
+
+                <div class="ai-body">
+
+                    <h2 id="missionName">
+                        Select a Mission
+                    </h2>
+                    <div id="aiResponse">
+
+                        <div class="ai-message">
+
+                            👋 Welcome aboard.
+
+                            <br><br>
+
+                            Choose a mission or ask:
+
+                            <br><br>
+
+                            • Explain this mission
+
+                            • Who were the crew?
+
+                            • Why was it important?
+
+                            • Compare with another mission
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ai-footer">
+
+                    <input id="aiInput" type="text" placeholder="Ask about this mission...">
+
+                    <button id="askAI">
+                        ➜
+                    </button>
+
+
+
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ================= HERO ================= -->
+
+
+
+        <div class="scroll">
+            SCROLL ↓
+        </div>
+
+        <!-- ================= SECOND HERO ================= -->
+
+
+
+
+    </div>
+
+    <!-- ================= LIBRARIES ================= -->
+
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.7/gsap.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.7/ScrollTrigger.min.js"></script>
+
+
+
+
+
+
+
+
+
+    <audio id="bgMusic" loop>
+        <source src="data:audio/mp3;base64,MUSIC_DATA" type="audio/mpeg">
+    </audio>
+
+    <button class="music-btn" onclick="toggleMusic()">
+        🎵
+    </button>
+
+</body>
+
+</html>
