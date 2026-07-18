@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1overflow: hidden;0">
+<title>Glass Pill Reveal</title>
+<style>
+  .navbar{
+    position:fixed;
+    top:20px;
+    left:50%;
+    transform:translateX(-50%);
+    display:flex;
+    gap:18px;
+    padding:14px 28px;
+    border-radius:20px;
+    background:rgba(15,20,35,.45);
+    backdrop-filter:blur(20px);
+    -webkit-backdrop-filter:blur(20px);
+    border:1px solid rgba(255,255,255,.12);
+    z-index:9999;
+}
+
+.navbar a{
+    color:white;
+    text-decoration:none;
+    font-weight:600;
+    padding:10px 18px;
+    border-radius:12px;
+    transition:.3s;
+}
+
+.navbar a:hover{
+    background:rgba(255,255,255,.10);
+}
+
+.navbar a.active{
+    background:rgba(90,170,255,.35);
+}
+  .navbar{
+    position:fixed;
+    top:20px;
+    left:50%;
+    transform:translateX(-50%);
+    display:flex;
+    gap:18px;
+    padding:14px 28px;
+    border-radius:20px;
+    background:rgba(15,20,35,.45);
+    backdrop-filter:blur(20px);
+    -webkit-backdrop-filter:blur(20px);
+    border:1px solid rgba(255,255,255,.12);
+    z-index:9999;
+}
+
+.navbar a{
+    color:white;
+    text-decoration:none;
+    font-weight:600;
+    padding:10px 18px;
+    border-radius:12px;
+    transition:.3s;
+}
+
+.navbar a:hover{
+    background:rgba(255,255,255,.10);
+}
+
+.navbar a.active{
+    background:rgba(90,170,255,.35);
+}
+  :root {
+    --ease-out-premium: cubic-bezier(0.16, 1, 0.3, 1);
+    --ease-liquid: cubic-bezier(0.65, 0, 0.35, 1);
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+
+    margin: 0;
+    height: 100%;
+
+    background: #0a0c10;
+
+    overflow-y: auto;
+overflow-x: hidden;
+
+    font-family: -apple-system, "SF Pro Display", "Inter", "Segoe UI", sans-serif;
+
+    -webkit-font-smoothing: antialiased;
+
+    -moz-osx-font-smoothing: grayscale;
+
+    text-rendering: optimizeLegibility;
+    text-shadow:
+    0 2px 10px rgba(0,0,0,.85),
+    0 0 25px rgba(0,0,0,.55);
+
+}
+
+  .stage{
+
+    position:relative;
+
+    z-index:2;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+.pill{
+
+    position:relative;
+
+    z-index:3;
+
+    width:460px;
+    height:100px;
+
+    border-radius:999px;
+
+    background:rgba(255,255,255,.08);
+
+    backdrop-filter:blur(40px);
+    -webkit-backdrop-filter:blur(40px);
+
+    border:1px solid rgba(255,255,255,.18);
+
+    box-shadow:
+        0 25px 60px rgba(0,0,0,.35),
+        inset 0 1px 1px rgba(255,255,255,.25),
+        inset 0 -1px 1px rgba(255,255,255,.08);
+
+    transition:
+        width 1s cubic-bezier(.16,1,.3,1),
+        height 1s cubic-bezier(.16,1,.3,1),
+        border-radius 1s cubic-bezier(.16,1,.3,1);
+
+    overflow-y:auto;
+    overflow-x:hidden;
+
+    isolation:isolate;
+
+    scroll-behavior:smooth;
+
+}
+.pill::-webkit-scrollbar{
+
+    width:8px;
+
+}
+
+.pill::-webkit-scrollbar-track{
+
+    background:transparent;
+
+}
+
+.pill::-webkit-scrollbar-thumb{
+
+    background:rgba(255,255,255,.28);
+
+    border-radius:20px;
+
+}
+
+.pill::-webkit-scrollbar-thumb:hover{
+
+    background:rgba(255,255,255,.45);
+
+}
+
+  /* ============ GLASS PILL ============ */
+  .pill-wrap {
+    position: relative;
+    opacity: 0;
+    transform: translateY(-75vh) scale(0.9);
+    filter: blur(14px);
+  }
+  .pill-wrap.play {
+    animation: pillRise 1.4s var(--ease-out-premium) forwards;
+  }
+   @keyframes pillRise{
+
+    0%{
+
+        opacity:0;
+
+        transform:translateY(-75vh) scale(.88);
+
+        filter:blur(14px);
+
+    }
+
+    65%{
+
+        opacity:1;
+
+        transform:translateY(12px) scale(1.03);
+
+        filter:blur(1px);
+
+    }
+
+    100%{
+
+        opacity:1;
+
+        transform:translateY(0) scale(1);
+
+        filter:blur(0);
+
+    }
+
+}
+  
+  
+  .pill-content{
+
+    width:100%;
+
+    height:100%;
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+
+    padding:40px 0 60px;
+
+    box-sizing:border-box;
+
+}
+
+
+.eyebrow{
+
+    font-size:12px;
+
+    font-weight:600;
+
+    letter-spacing:0.28em;
+
+    text-transform:uppercase;
+
+    color:rgba(255,255,255,.72);
+
+    margin-bottom:18px;
+
+}
+
+.pill-content h1{
+
+    margin:0;
+
+    color:white;
+
+    font-size:24px;
+
+    font-weight:650;
+
+    letter-spacing:-0.04em;
+
+    line-height:1;
+
+}
+
+  /* long specular streak near the top */
+  .pill::before {
+    content: "";
+    position: absolute;
+    top: 19px;
+    left: 40px;
+    right: 40px;
+    height: 9px;
+    border-radius: 999px;
+    background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.75) 40%, rgba(255,255,255,0.75) 70%, rgba(255,255,255,0) 100%);
+    filter: blur(0.5px);
+  }
+
+  /* dimmer, shorter streak lower down */
+  .pill::after {
+    content: "";
+    position: absolute;
+    top: 55px;
+    left: 54px;
+    width: 34%;
+    height: 7px;
+    border-radius: 999px;
+    background: linear-gradient(90deg, rgba(255,255,255,0.55), rgba(255,255,255,0.05));
+    filter: blur(0.5px);
+  }
+
+  .pill-glint {
+    position: absolute;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.25) 45%, rgba(255,255,255,0) 75%);
+    pointer-events: none;
+    filter: blur(1px);
+  }
+  .pill-glint.tl { width: 54px; height: 54px; top: 14px; left: 30px; }
+  .pill-glint.br { width: 46px; height: 46px; bottom: 10px; right: 48px; opacity: 0.85; }
+
+  /* liquid distortion on the pill edge, driven by SVG filter */
+  .pill-liquid-edge {
+    position: absolute;
+    inset: -6px;
+    border-radius: 999px;
+    border: 2px solid rgba(255,255,255,0.5);
+    pointer-events: none;
+    opacity: 0;
+    filter: url(#liquidWobble);
+    mix-blend-mode: screen;
+  }
+  .pill-wrap.play .pill-liquid-edge {
+    animation: liquidIn 1.7s var(--ease-liquid) forwards;
+  }
+  @keyframes liquidIn {
+    0%   { opacity: 0; }
+    20%  { opacity: 0.9; }
+    70%  { opacity: 0.55; }
+    100% { opacity: 0; }
+  }
+
+  /* diagonal shine sweep */
+  .pill-shine {
+    position: absolute;
+    top: -80%;
+    left: -60%;
+    width: 45%;
+    height: 260%;
+    background: linear-gradient(75deg, transparent, rgba(255,255,255,0.65), transparent);
+    transform: translateX(-40%) rotate(10deg);
+    opacity: 0;
+    pointer-events: none;
+  }
+  .pill-wrap.play .pill-shine {
+    animation: sweep 1.4s 0.6s var(--ease-out-premium) forwards;
+  }
+  @keyframes sweep {
+    0%   { transform: translateX(-160%) rotate(10deg); opacity: 0; }
+    12%  { opacity: 1; }
+    60%  { opacity: 1; }
+    100% { transform: translateX(260%) rotate(10deg); opacity: 0; }
+  }
+
+
+  @media (prefers-reduced-motion: reduce) {
+    .pill-wrap, .pill-liquid-edge, .pill-shine {
+      animation: none !important;
+      opacity: 1 !important;
+      transform: none !important;
+      filter: none !important;
+    }
+
+  }
+.divider{
+
+    width:88%;
+
+    height:1px;
+
+    margin-top:25px;
+
+    background:rgba(255,255,255,.18);
+
+} 
+.about-body{
+
+    width:100%;
+
+    padding:35px 80px 0;
+
+    box-sizing:border-box;
+
+    opacity:1;
+
+}
+.about-body p{
+
+    margin:0 0 18px;
+
+    max-width:760px;
+
+    color:rgba(255,255,255,.74);
+
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "SF Pro Text",
+        "Inter",
+        "Segoe UI",
+        sans-serif;
+
+    font-size:17px;
+
+    font-weight:400;
+
+    line-height:1.4;
+
+    letter-spacing:-0.005em;
+  text-shadow:
+    0 2px 12px rgba(0,0,0,.9),
+    0 0 20px rgba(0,0,0,.5);
+}
+.about-body h2{
+
+    margin:40px 0 18px;
+
+    color:white;
+
+    font-size:24px;
+
+    font-weight:650;
+
+    letter-spacing:-0.02em;
+
+    text-shadow:
+        0 2px 12px rgba(0,0,0,.8);
+
+}
+
+.feature-list{
+
+    margin:0;
+
+    padding-left:24px;
+
+    color:rgba(255,255,255,.82);
+
+    font-size:17px;
+
+    line-height:1.8;
+
+    font-family:-apple-system,"SF Pro Text","Inter","Segoe UI",sans-serif;
+
+}
+
+.feature-list li{
+
+    margin-bottom:12px;
+
+    text-shadow:
+        0 2px 10px rgba(0,0,0,.8);
+
+}
+#bg-video{
+
+    position:fixed;
+
+    inset:0;
+
+    width:100vw;
+
+    height:100vh;
+
+    object-fit:cover;
+
+    z-index:0;
+
+    pointer-events:none;
+
+}
+.overlay{
+
+    position:fixed;
+
+    inset:0;
+
+    background:rgba(0,0,0,.35);
+
+    z-index:-1;
+
+}
+</style>
+
+
+</head>
+<body>
+
+<nav class="navbar">
+    <a href="https://spacemissionanalysis.streamlit.app/?page=home">Home</a>
+    <a href="https://spacemissionanalysis.streamlit.app/?page=missions">Missions</a>
+    <a href="https://spacemissionanalysis.streamlit.app/?page=analytics">Analytics</a>
+    <a href="https://spacemissionanalysis.streamlit.app/?page=planets">Planets</a>
+    <a class="active" href="#">About</a>
+</nav>
+ 
+  <video id="bg-video" autoplay muted loop playsinline>
+ <source src="space3.mp4?v=2" type="video/mp4">
+</video>
+<audio id="bgMusic" autoplay loop>
+    <source src="music.mp3" type="audio/mpeg">
+</audio>
+
+<button id="musicBtn">🔊 Music</button>
+ 
+
+<div class="stage">
+  <div class="pill-wrap" id="pillWrap">
+    <div class="pill">
+
+    <div class="pill-liquid-edge"></div>
+
+    <div class="pill-shine"></div>
+
+    <div class="pill-glint tl"></div>
+
+    <div class="pill-glint br"></div>
+
+    <div class="pill-content">
+
+    <span class="eyebrow">ABOUT</span>
+
+    <h1>SPACE MISSION ANALYTICS</h1>
+
+    <div class="divider"></div>
+
+    <div class="about-body">
+
+<p>
+Space Mission Analytics is an immersive data visualization platform that transforms decades of space exploration into an engaging interactive experience. Rather than presenting missions as static records, the platform allows users to discover humanity's journey beyond Earth through modern design, intelligent visualizations, and real-world mission insights.
+</p>
+
+<p>
+The application combines historical mission datasets from leading space agencies, including NASA, ISRO, ESA, JAXA, CNSA, and SpaceX. Each mission has been carefully organized to provide information about launch vehicles, launch sites, mission objectives, duration, cost categories, crew details, achievements, and overall mission status.
+</p>
+
+<p>
+Built using <strong>Python</strong>, <strong>Streamlit</strong>, <strong>Pandas</strong>, <strong>Plotly</strong>, <strong>HTML5</strong>, <strong>CSS3</strong>, and <strong>JavaScript</strong>, the platform blends data science with modern web development. Interactive charts, immersive animations, cinematic backgrounds, and premium glass-inspired user interfaces create an experience that feels both informative and visually engaging.
+</p>
+
+<p>
+The objective of this project is to simplify complex space mission data into intuitive visual stories that inspire curiosity, encourage exploration, and demonstrate how technology and design can work together to communicate scientific information effectively.
+</p>
+
+<h2>Key Features</h2>
+
+<ul class="feature-list">
+<li>🚀 Historical missions from NASA, ISRO, ESA, JAXA, CNSA & SpaceX</li>
+<li>📊 Interactive analytics and dynamic visualizations</li>
+<li>🛰️ Launch vehicles, sites, crew and mission achievements</li>
+<li>💎 Modern glass-inspired interface with animations</li>
+<li>🤖 Built using Python, Streamlit, Plotly, HTML, CSS & JavaScript</li>
+</ul>
+
+<h2>Developer</h2>
+
+<p>
+Hello, I'm <strong>Aditya Jaswal</strong>, an Electronics and Communication Engineering student passionate about Data Science, Artificial Intelligence, Space Technology and modern UI design. This project combines data analytics with premium web design to create an engaging experience for exploring the history of space exploration.
+</p>
+
+</div>
+</div>
+        
+        
+             
+
+
+
+    </div>
+
+</div>
+  </div>
+
+ 
+</div>
+
+<!-- SVG filter powering the liquid wobble on the pill edge -->
+<svg width="0" height="0" style="position:absolute">
+  <filter id="liquidWobble">
+    <feTurbulence id="turb" type="fractalNoise" baseFrequency="0.01 0.04" numOctaves="2" seed="3" result="noise">
+      <animate attributeName="baseFrequency" dur="1.7s" values="0.002 0.01;0.03 0.09;0.008 0.02" begin="indefinite" />
+    </feTurbulence>
+    <feDisplacementMap in="SourceGraphic" in2="noise" scale="0">
+      <animate attributeName="scale" dur="1.7s" values="0;36;0" begin="indefinite" />
+    </feDisplacementMap>
+  </filter>
+</svg>
+
+<script>
+
+
+const wrap = document.getElementById('pillWrap');
+const svgAnims = document.querySelectorAll('#liquidWobble animate');
+
+function play() {
+
+    wrap.classList.remove("play");
+    wrap.classList.remove("toTop");
+
+    void wrap.offsetWidth;
+
+    wrap.classList.add("play");
+
+    svgAnims.forEach(a => a.beginElement());
+
+   setTimeout(() => {
+
+    wrap.animate(
+        [
+            { transform: "translateY(0) scale(1)" },
+            {transform: "translateY(-7vh) scale(.95)"},
+        ],
+        {
+            duration: 900,
+            easing: "cubic-bezier(.16,1,.3,1)",
+            fill: "forwards"
+        }
+    );
+
+    setTimeout(() => {
+
+       const pill = document.querySelector(".pill");
+
+pill.animate(
+[
+    {
+        width:"460px",
+        height:"100px",
+        borderRadius:"999px"
+    },
+    {
+        width:"1100px",
+        height:"720px",
+        borderRadius:"32px"
+    }
+],
+{
+    duration:1200,
+    easing:"cubic-bezier(.16,1,.3,1)",
+    fill:"forwards"
+});
+
+    }, 900);
+
+}, 1400);
+}
+
+
+
+
+
+window.addEventListener("load",()=>{
+
+    setTimeout(play,400);
+
+});
+
+</script>
+<script>
+const music = document.getElementById("bgMusic");
+const musicBtn = document.getElementById("musicBtn");
+
+musicBtn.onclick = () => {
+    if (music.paused) {
+        music.play();
+        musicBtn.innerHTML = "🔊 Music";
+    } else {
+        music.pause();
+        musicBtn.innerHTML = "🔇 Muted";
+    }
+};
+</script>
+</body>
+</html>
